@@ -1,7 +1,7 @@
 build:
 	protoc -I. --go_out=plugins=micro:. \
-      proto/vessel/vessel.proto
-	docker build -t smartie-vessel-service .
+      proto/vehicle/vehicle.proto
+	docker build -t smartie-vehicle-service .
 
 run:
-	docker run -p 50052:50051 -e MICRO_SERVER_ADDRESS=:50051 smartie-vessel-service
+	docker run -p 50052:50051 -e MICRO_SERVER_ADDRESS=:50051 smartie-vehicle-service

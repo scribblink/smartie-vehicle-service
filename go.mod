@@ -1,4 +1,4 @@
-module github.com/scribblink/smartie-vessel-service
+module github.com/scribblink/smartie-vehicle-service
 
 go 1.13
 

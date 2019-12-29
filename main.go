@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"github.com/micro/go-micro"
-	pb "github.com/scribblink/smartie-vessel-service/proto/vessel"
+	pb "github.com/scribblink/smartie-vehicle-service/proto/vehicle"
 )
 
 const (
@@ -16,7 +16,7 @@ const (
 
 func main() {
 	srv := micro.NewService(
-		micro.Name("shippy.service.vessel"),
+		micro.Name("shippy.service.vehicle"),
 	)
 
 	srv.Init()
@@ -31,14 +31,14 @@ func main() {
 	}
 	defer client.Disconnect(context.TODO())
 
-	vesselCollection := client.Database("shippy").Collection("vessel")
-	repository := &VesselRepository{
-		vesselCollection,
+	vehicleCollection := client.Database("shippy").Collection("vehicle")
+	repository := &VehicleRepository{
+		vehicleCollection,
 	}
 
 
 	// Register our implementation with
-	pb.RegisterVesselServiceHandler(srv.Server(), &handler{repository})
+	pb.RegisterVehicleServiceHandler(srv.Server(), &handler{repository})
 
 	if err := srv.Run(); err != nil {
 		fmt.Println(err)

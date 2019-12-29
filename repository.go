@@ -2,24 +2,24 @@ package main
 
 import (
 	"context"
-	pb "github.com/scribblink/smartie-vessel-service/proto/vessel"
+	pb "github.com/scribblink/smartie-vehicle-service/proto/vehicle"
 	"go.mongodb.org/mongo-driver/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
 
 type repository interface {
-	FindAvailable(spec *pb.Specification) (*pb.Vessel, error)
-	Create(vessel *pb.Vessel) error
+	FindAvailable(spec *pb.Specification) (*pb.Vehicle, error)
+	Create(vehicle *pb.Vehicle) error
 }
 
-type VesselRepository struct {
+type VehicleRepository struct {
 	collection *mongo.Collection
 }
 
-// FindAvailable - checks a specification against a map of vessels,
-// if capacity and max weight are below a vessels capacity and max weight,
-// then return that vessel.
-func (repository *VesselRepository) FindAvailable(spec *pb.Specification) (*pb.Vessel, error) {
+// FindAvailable - checks a specification against a map of vehicles,
+// if capacity and max weight are below a vehicles capacity and max weight,
+// then return that vehicle.
+func (repository *VehicleRepository) FindAvailable(spec *pb.Specification) (*pb.Vehicle, error) {
 	filter := bson.D{{
 		"capacity",
 		bson.D{{
@@ -30,15 +30,15 @@ func (repository *VesselRepository) FindAvailable(spec *pb.Specification) (*pb.V
 			spec.MaxWeight,
 		}},
 	}}
-	var vessel *pb.Vessel
-	if err := repository.collection.FindOne(context.TODO(), filter).Decode(&vessel); err != nil {
+	var vehicle *pb.Vehicle
+	if err := repository.collection.FindOne(context.TODO(), filter).Decode(&vehicle); err != nil {
 		return nil, err
 	}
-	return vessel, nil
+	return vehicle, nil
 }
 
-// Create a new vessel
-func (repository *VesselRepository) Create(vessel *pb.Vessel) error {
-	_, err := repository.collection.InsertOne(context.TODO(), vessel)
+// Create a new vehicle
+func (repository *VehicleRepository) Create(vehicle *pb.Vehicle) error {
+	_, err := repository.collection.InsertOne(context.TODO(), vehicle)
 	return err
 }
